@@ -112,14 +112,17 @@ public class EmployeeController {
 
     // 従業員更新処理
     @PostMapping(value = "/{code}/update")
-    public String update(@Validated Employee employee, @PathVariable("code") String code, BindingResult res,
-            Model model) {
+    public String update(@Validated Employee employee, BindingResult res, Model model) {
 
         // 入力チェック
         if (res.hasErrors()) {
             return edit(employee, null, model);
         }
-        employeeService.update(employee);
+        ErrorKinds result = employeeService.update(employee);
+        if (ErrorMessage.contains(result)) {
+            model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
+            return edit(employee, null, model);
+        }
 
         return "redirect:/employees";
     }
