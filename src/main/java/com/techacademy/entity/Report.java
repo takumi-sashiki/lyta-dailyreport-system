@@ -1,5 +1,6 @@
 package com.techacademy.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.SQLRestriction;
@@ -7,7 +8,11 @@ import org.hibernate.validator.constraints.Length;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -16,38 +21,36 @@ import lombok.Data;
 @Entity
 @Table(name = "reports")
 @SQLRestriction("delete_flg = false")
-public class Reports {
+public class Report {
 
     // ID
     @Id
     @Column(length = 10)
     @NotEmpty
     @Length(max = 10)
-    private String code;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
-    // 名前
-    @Column(length = 20, nullable = false)
+    // 日付
+    @Column(nullable = false)
     @NotEmpty
-    @Length(max = 20)
-    private String name;
+    private LocalDate report_date;
 
-    //タイトル
+    // タイトル
     @Column(length = 20, nullable = false)
     @NotEmpty
     @Length(max = 100)
     private String title;
 
-    //内容
+    // 内容
     @Column(length = 20, nullable = false)
     @NotEmpty
     @Length(max = 100)
     private String content;
 
-    //社員番号
-    @Column(length = 10, nullable = false)
-    @NotEmpty
-    @Length(max = 10)
-    private String employee_code;
+    @ManyToOne
+    @JoinColumn(name = "employee_code", referencedColumnName = "code", nullable = false)
+    private Employee employee;
 
     // 削除フラグ(論理削除を行うため)
     @Column(columnDefinition = "TINYINT", nullable = false)
