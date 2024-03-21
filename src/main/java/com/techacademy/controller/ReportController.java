@@ -42,19 +42,19 @@ public class ReportController {
     }
 
     // 日報詳細画面
-    @GetMapping(value = "/{code}/")
-    public String detail(@PathVariable String code, Model model) {
+    @GetMapping(value = "/{id}/")
+    public String detail(@PathVariable String id, Model model) {
 
-        model.addAttribute("report", reportService.findByCode(code));
+        model.addAttribute("report", reportService.findById(id));
         return "reports/detail";
     }
 
     // 日報更新画面
-    @GetMapping(value = "/{code}/update")
-    public String edit(@ModelAttribute Report report, @PathVariable("code") String code, Model model) {
+    @GetMapping(value = "/{id}/update")
+    public String edit(@ModelAttribute Report report, @PathVariable("id") String id, Model model) {
 
-        if (code != null) {
-            model.addAttribute("report", reportService.findByCode(code));
+        if (id != null) {
+            model.addAttribute("report", reportService.findById(id));
         } else {
             model.addAttribute("report", report);
         }
@@ -111,7 +111,7 @@ public class ReportController {
     }
 
     // 日報更新処理
-    @PostMapping(value = "/{code}/update")
+    @PostMapping(value = "/{id}/update")
     public String update(@Validated Report report, BindingResult res, Model model) {
 
         // 入力チェック
@@ -128,15 +128,15 @@ public class ReportController {
     }
 
     // 日報削除処理
-    @PostMapping(value = "/{code}/delete")
-    public String delete(@PathVariable String code, @AuthenticationPrincipal UserDetail userDetail, Model model) {
+    @PostMapping(value = "/{id}/delete")
+    public String delete(@PathVariable String id, @AuthenticationPrincipal UserDetail userDetail, Model model) {
 
-        ErrorKinds result = reportService.delete(code, userDetail);
+        ErrorKinds result = reportService.delete(id, userDetail);
 
         if (ErrorMessage.contains(result)) {
             model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-            model.addAttribute("report", reportService.findByCode(code));
-            return detail(code, model);
+            model.addAttribute("report", reportService.findById(id));
+            return detail(id, model);
         }
 
         return "redirect:/reports";
