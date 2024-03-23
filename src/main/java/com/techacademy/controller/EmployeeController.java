@@ -49,18 +49,6 @@ public class EmployeeController {
         return "employees/detail";
     }
 
-    // 従業員更新画面
-    @GetMapping(value = "/{code}/update")
-    public String edit(@ModelAttribute Employee employee, @PathVariable("code") String code, Model model) {
-
-        if (code != null) {
-            model.addAttribute("employee", employeeService.findByCode(code));
-        } else {
-            model.addAttribute("employee", employee);
-        }
-        return "employees/update";
-    }
-
     // 従業員新規登録画面
     @GetMapping(value = "/add")
     public String create(@ModelAttribute Employee employee) {
@@ -110,6 +98,18 @@ public class EmployeeController {
         return "redirect:/employees";
     }
 
+    // 従業員更新画面
+    @GetMapping(value = "/{code}/update")
+    public String edit(@ModelAttribute Employee employee, @PathVariable("code") String code, Model model) {
+
+        if (code != null) {
+            model.addAttribute("employee", employeeService.findByCode(code));
+        } else {
+            model.addAttribute("employee", employee);
+        }
+        return "employees/update";
+    }
+
     // 従業員更新処理
     @PostMapping(value = "/{code}/update")
     public String update(@Validated Employee employee, BindingResult res, Model model) {
@@ -141,5 +141,4 @@ public class EmployeeController {
 
         return "redirect:/employees";
     }
-
 }

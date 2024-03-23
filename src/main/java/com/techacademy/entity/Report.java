@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.SQLRestriction;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -25,16 +26,13 @@ public class Report {
 
     // ID
     @Id
-    @Column(length = 10)
-    @NotEmpty
-    @Length(max = 10)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     // 日付
     @Column(nullable = false)
-    @NotEmpty
-    private LocalDate report_date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate reportDate;
 
     // タイトル
     @Column(length = 20, nullable = false)
@@ -45,7 +43,7 @@ public class Report {
     // 内容
     @Column(length = 20, nullable = false)
     @NotEmpty
-    @Length(max = 100)
+    @Length(max = 600)
     private String content;
 
     @ManyToOne
