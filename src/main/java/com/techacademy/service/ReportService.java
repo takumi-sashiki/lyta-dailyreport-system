@@ -43,7 +43,8 @@ public class ReportService {
     @Transactional
     public ErrorKinds update(Report report) {
 
-        if (!report.equals(report)) {
+        Report rep = findById(report.getId());
+        if (!report.getReportDate().equals(rep.getReportDate())) {
             if (reportRepository.findByEmployeeCodeAndReportDate(report.getEmployee().getCode(),
                     report.getReportDate()) != null) {
                 return ErrorKinds.DATECHECK_ERROR;
