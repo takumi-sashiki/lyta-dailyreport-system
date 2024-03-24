@@ -98,7 +98,8 @@ public class ReportController {
 
     // 日報更新画面
     @GetMapping(value = "/{id}/update")
-    public String edit(@AuthenticationPrincipal UserDetail userDetail,@ModelAttribute Report report, @PathVariable("id") Integer id, Model model) {
+    public String edit(@AuthenticationPrincipal UserDetail userDetail, @ModelAttribute Report report,
+            @PathVariable("id") Integer id, Model model) {
 
         if (id != null) {
             model.addAttribute("report", reportService.findById(id));
@@ -112,18 +113,19 @@ public class ReportController {
 
     // 日報更新処理
     @PostMapping(value = "/{id}/update")
-    public String update(@AuthenticationPrincipal UserDetail userDetail,@Validated Report report, BindingResult res,@PathVariable("id") Integer id, Model model) {
+    public String update(@AuthenticationPrincipal UserDetail userDetail, @Validated Report report, BindingResult res,
+            @PathVariable("id") Integer id, Model model) {
 
         // 入力チェック
         if (res.hasErrors()) {
-            return edit(userDetail,report, null, model);
+            return edit(userDetail, report, null, model);
         }
         Employee employee = userDetail.getEmployee();
         report.setEmployee(employee);
         ErrorKinds result = reportService.update(report);
         if (ErrorMessage.contains(result)) {
             model.addAttribute(ErrorMessage.getErrorName(result), ErrorMessage.getErrorValue(result));
-            return edit(userDetail,report, null, model);
+            return edit(userDetail, report, null, model);
         }
 
         return "redirect:/reports";
