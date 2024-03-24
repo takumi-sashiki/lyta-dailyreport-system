@@ -34,7 +34,7 @@
                                         <label class="form-label" for="name">氏名</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <span id="name" name="name"  th:text="${name}"></span>
+                                            <span id="name" th:text="${name}"></span>
                                         </div>
                                     </div>
                                     <div class="mb-3">
@@ -49,7 +49,7 @@
                                         <label class="form-label" for="content">内容</label>
                                         <p class="mb-1"></p>
                                         <div class="col-md-7">
-                                            <textarea rows="10" cols="200" class="form-control" type="text" name="content" th:field="*{content}" th:errorclass="err" id="content"></textarea>
+                                            <textarea rows="10" cols="200" class="form-control" name="content" th:field="*{content}" th:errorclass="err" id="content"></textarea>
                                             <span th:errors="*{content}" class="text-danger"></span>
                                         </div>
                                     </div>
